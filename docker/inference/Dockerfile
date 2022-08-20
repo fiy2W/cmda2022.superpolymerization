@@ -30,6 +30,8 @@ RUN mkdir /myhome/
 RUN chmod 777 /myhome
 RUN export HOME=/myhome/
 
+RUN chmod -R 777 ./
+
 ENV RESULTS_FOLDER=./ckpt
 
 ## Execute the inference command 
