@@ -1,0 +1,42 @@
+# root for original images
+data:
+  train:
+    source: crossmoda2022/crossmoda2022_training/training_source
+    target: crossmoda2022/crossmoda2022_training/training_target
+    GIF: crossmoda2022/training_source_GIF/training_source_GIF
+    infos: crossmoda2022/crossmoda2022_training/infos_source_training.csv
+  valid:
+    target: crossmoda2022/crossmoda2022_validation/validation
+
+# root to save preprocessed images
+preprocess:
+  resample:
+    source: preprocess/a1_resample/t1
+    target: preprocess/a1_resample/t2
+    GIF: preprocess/a1_resample/GIF
+    spacing:
+      - 0.4102
+      - 0.4102
+      - 1
+  histmatch:
+    source: preprocess/a2_histmatch/t1
+    target: preprocess/a2_histmatch/t2
+    hm_source: crossmoda2021_ldn_1_ceT1.nii.gz
+    hm_target: crossmoda2021_ldn_106_hrT2.nii.gz
+  affine:
+    source: preprocess/a3_affine/out/t1
+    target: preprocess/a3_affine/out/t2
+    GIF: preprocess/a3_affine/out/GIF
+    atlas: crossmoda2021_ldn_213_hrT2.nii.gz
+    df_source: preprocess/a3_affine/df/t1
+    df_target: preprocess/a3_affine/df/t2
+  crop:
+    source: preprocess/a4_crop/t1
+    target: preprocess/a4_crop/t2
+    GIF: preprocess/a4_crop/GIF
+
+# root for nnunet
+nnunet:
+  base: nnUNet_raw_data_base
+  preprocessing_output_dir: nnUNet_preprocessed
+  network_training_output_dir_base: ckpt/nnUNet

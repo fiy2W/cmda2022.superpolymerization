@@ -14,6 +14,11 @@
 
 import os
 from os.path import join
+import yaml
+
+
+with open('config/data.yaml', 'r') as f:
+    config = yaml.safe_load(f)
 
 # do not modify these unless you know what you are doing
 my_output_identifier = "nnUNet"
@@ -26,10 +31,12 @@ default_cascade_trainer = "nnUNetTrainerV2CascadeFullRes"
 PLEASE READ paths.md FOR INFORMATION TO HOW TO SET THIS UP
 """
 
-base = os.environ['nnUNet_raw_data_base'] if "nnUNet_raw_data_base" in os.environ.keys() else None
-preprocessing_output_dir = os.environ['nnUNet_preprocessed'] if "nnUNet_preprocessed" in os.environ.keys() else None
-network_training_output_dir_base = os.path.join(os.environ['RESULTS_FOLDER']) if "RESULTS_FOLDER" in os.environ.keys() else None
-
+#base = os.environ['nnUNet_raw_data_base'] if "nnUNet_raw_data_base" in os.environ.keys() else None
+#preprocessing_output_dir = os.environ['nnUNet_preprocessed'] if "nnUNet_preprocessed" in os.environ.keys() else None
+#network_training_output_dir_base = os.path.join(os.environ['RESULTS_FOLDER']) if "RESULTS_FOLDER" in os.environ.keys() else None
+base = config['nnunet']['base']
+preprocessing_output_dir = os.path.join(base, config['nnunet']['preprocessing_output_dir'])
+network_training_output_dir_base = config['nnunet']['network_training_output_dir_base']
 
 if base is not None:
     nnUNet_raw_data = os.path.join(base, "nnUNet_raw_data")

@@ -2,3 +2,5 @@ __pycache__/
 atlas/
 ckpt/
 vis/
+crossmoda2022/
+preprocess/

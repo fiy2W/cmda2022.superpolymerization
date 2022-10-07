@@ -1,6 +1,38 @@
 # cmda2022.superpolymerization
 Source code for [CrossMoDA 2022 challenge](https://crossmoda2022.grand-challenge.org/), coming soon.
 
+## Install
+- Install [ANTs](https://github.com/ANTsX/ANTs)
+- Install PyTorch
+    ```sh
+    pip install torch torchvision torchaudio
+    ```
+- Install requirements
+    ```sh
+    pip install -r requirements.txt
+    ```
+- Install nnU-Net from source
+    ```
+    pip install -e .
+    ```
+
+## Training process
+### Preprocess image
+Run the following steps for data preprocessing.
+```sh
+# resample
+python src/prep1_resample.py
+
+# histogram matching
+python src/prep2_histmatch.py
+
+# affine
+python src/prep3_affine.py
+
+# crop
+python src/prep4_crop.py
+```
+
 ## Docker
 
 ### Inference

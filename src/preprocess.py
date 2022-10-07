@@ -50,3 +50,20 @@ def histMatch(src, tgt, hist_level: int=1024, match_points: int=7):
     dist = matcher.Execute(src, tgt)
 
     return dist
+
+
+def ants_affine(affine_path, moving, fixed, is_label=False):
+    Affine = sitk.ReadTransform(affine_path)
+    resampler_affine = sitk.ResampleImageFilter()
+    resampler_affine.SetReferenceImage(fixed)
+    
+    if is_label:
+        resampler_affine.SetInterpolator(sitk.sitkNearestNeighbor)
+    else:
+        resampler_affine.SetInterpolator(sitk.sitkLinear)
+
+    resampler_affine.SetDefaultPixelValue(0)
+    resampler_affine.SetTransform(Affine)
+
+    out_affine = resampler_affine.Execute(moving)
+    return out_affine

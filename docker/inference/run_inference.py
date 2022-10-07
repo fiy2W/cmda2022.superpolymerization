@@ -71,11 +71,11 @@ net = [
 for i in range(5):
     net[i].to(device=device)
 
-net[0].load_state_dict(torch.load('ckpt/koos/f0/ckpt_11.pth', map_location=device))
-net[1].load_state_dict(torch.load('ckpt/koos/f1/ckpt_12.pth', map_location=device))
-net[2].load_state_dict(torch.load('ckpt/koos/f2/ckpt_6.pth', map_location=device))
-net[3].load_state_dict(torch.load('ckpt/koos/f3/ckpt_9.pth', map_location=device))
-net[4].load_state_dict(torch.load('ckpt/koos/f4/ckpt_8.pth', map_location=device))
+net[0].load_state_dict(torch.load('ckpt/koos/f0/ckpt_best.pth', map_location=device))
+net[1].load_state_dict(torch.load('ckpt/koos/f1/ckpt_best.pth', map_location=device))
+net[2].load_state_dict(torch.load('ckpt/koos/f2/ckpt_best.pth', map_location=device))
+net[3].load_state_dict(torch.load('ckpt/koos/f3/ckpt_best.pth', map_location=device))
+net[4].load_state_dict(torch.load('ckpt/koos/f4/ckpt_best.pth', map_location=device))
 
 for i in range(5):
     net[i].eval()
