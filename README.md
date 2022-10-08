@@ -18,19 +18,24 @@ Source code for [CrossMoDA 2022 challenge](https://crossmoda2022.grand-challenge
 
 ## Training process
 ### Preprocess image
-Run the following steps for data preprocessing.
+- Modify data root in [data configuration](config/data.yaml).
+- Run the following steps for data preprocessing.
+    ```sh
+    # resample
+    python src/prep1_resample.py
+
+    # histogram matching
+    python src/prep2_histmatch.py
+
+    # affine
+    python src/prep3_affine.py
+
+    # crop
+    python src/prep4_crop.py
+    ```
+### Train MSF-Net
 ```sh
-# resample
-python src/prep1_resample.py
-
-# histogram matching
-python src/prep2_histmatch.py
-
-# affine
-python src/prep3_affine.py
-
-# crop
-python src/prep4_crop.py
+python src/train_msf_cross25dseg_gif.py -d cuda -b 1 -e 1000 -l 2e-4 -s ckpt/msf -v vis/msf
 ```
 
 ## Docker
