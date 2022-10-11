@@ -56,9 +56,26 @@ Source code for [CrossMoDA 2022 challenge](https://crossmoda2022.grand-challenge
     ```
 - Inference
     ```sh
-    python nnunet/inference/predict_simple.py -i $nnUNet_raw_data_base/Task701_CAMDA1/imagesTs -o $output -t 701 -m 3d_fullres -chk model_best --num_threads_preprocessing 2
+    ## inference test data
+    python nnunet/inference/predict_simple.py -i nnUNet_raw_data_base/Task701_CMDA1/imagesTs -o preprocess/b2_nnunet_seg/test -t 701 -m 3d_fullres -chk model_best --num_threads_preprocessing 2
+
+    ## inference training data for Koos grade prediction
+    python nnunet/inference/predict_simple.py -i nnUNet_raw_data_base/Task701_CMDA1/imagesAllT2 -o preprocess/b2_nnunet_seg/train_t2 -t 701 -m 3d_fullres -chk model_best --num_threads_preprocessing 2
     ```
-    
+
+### Koos grade prediction
+- Semi-contrastive learning pretraining
+    ```sh
+    python src/train_msf_koo25dseg_contrast.py -d cuda -c ckpt/msf/ckpt_1000.pth -e 1000 -l 1e-2 -s ckpt/msf_koos_contrast -v vis/msf_koos_contrast
+    ```
+- Train
+    ```sh
+    for i in 0 1 2 3 4
+    do
+        python src/train_msf_koo25dseg_contrast_fc.py -d cuda -m ckpt/msf/ckpt_1000.pth -c ckpt/msf_koos_contrast/ckpt_100.pth -e 20 -l 1e-4 -s ckpt/msf_koos_contrast_fc/$i -v vis/msf_koos_contrast_fc/$i -f $i
+    done
+    ```
+
 ## Docker
 
 ### Inference
@@ -85,5 +102,10 @@ docker run --gpus all --rm -v [input directory]:/input/:ro -v [output directory]
 ## Citation
 If this work is helpful for you, please cite our paper as follows:
 ```bib
-TBD
+@article{han2022unsupervised,
+  title={Unsupervised cross-modality domain adaptation for vestibular schwannoma segmentation and koos grade prediction based on semi-supervised contrastive learning},
+  author={Han, Luyi and Huang, Yunzhi and Tan, Tao and Mann, Ritse},
+  journal={arXiv preprint arXiv:2210.04255},
+  year={2022}
+}
 ```

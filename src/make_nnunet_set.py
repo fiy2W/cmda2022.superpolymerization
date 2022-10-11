@@ -15,6 +15,7 @@ base = os.path.join(config['nnunet']['base'], 'Task701_CMDA1')
 root_t1 = config['preprocess']['crop']['source']
 root_t2 = config['MSF']['fakesource']
 root_test = config['preprocess']['crop']['valid']
+root_at2 = config['preprocess']['crop']['target']
 
 data_dict = {
     "name": "CMDA2022",
@@ -34,6 +35,7 @@ data_dict = {
 imagesTr = os.path.join(base, 'imagesTr')
 labelsTr = os.path.join(base, 'labelsTr')
 imagesTs = os.path.join(base, 'imagesTs')
+imagesT2 = os.path.join(base, 'imagesAllT2')
 
 if not os.path.exists(imagesTr):
     os.makedirs(imagesTr)
@@ -41,9 +43,12 @@ if not os.path.exists(labelsTr):
     os.makedirs(labelsTr)
 if not os.path.exists(imagesTs):
     os.makedirs(imagesTs)
+if not os.path.exists(imagesT2):
+    os.makedirs(imagesT2)
 
 train_list = glob(os.path.join(root_t1, '*ceT1.nii.gz'))
 test_list = glob(os.path.join(root_test, '*.nii.gz'))
+allt2_list = glob(os.path.join(root_at2, '*.nii.gz'))
 
 for f in train_list:
     no_f = np.int32(os.path.basename(f).split('_')[-2])
@@ -95,3 +100,15 @@ for f in test_list:
 
 with open(os.path.join(base, 'dataset.json'), 'w+') as f:
     f.write(json.dumps(data_dict))
+
+
+for f in allt2_list:
+    no_f = np.int32(os.path.basename(f).split('_')[-2])
+    if '2022' in os.path.basename(f):
+        no_f += 500
+    
+    img = sitk.ReadImage(f)
+    arr = np.clip(sitk.GetArrayFromImage(img), 0, 1500)/1500
+    img_new = sitk.GetImageFromArray(arr)
+    img_new.CopyInformation(img)
+    sitk.WriteImage(img_new, os.path.join(base, "imagesAllT2/cmda_{:04d}_0000.nii.gz".format(no_f)))
