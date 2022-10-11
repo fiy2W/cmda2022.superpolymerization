@@ -13,9 +13,11 @@ with open('config/data.yaml', 'r') as f:
 src_t1 = config['preprocess']['affine']['source']
 src_t2 = config['preprocess']['affine']['target']
 src_gif = config['preprocess']['affine']['GIF']
+src_valid = config['preprocess']['histmatch']['target']
 output_t1 = config['preprocess']['crop']['source']
 output_t2 = config['preprocess']['crop']['target']
 output_gif = config['preprocess']['crop']['GIF']
+output_t2_valid = config['preprocess']['crop']['valid']
 
 if not os.path.exists(output_t1):
     os.makedirs(output_t1)
@@ -23,9 +25,13 @@ if not os.path.exists(output_t2):
     os.makedirs(output_t2)
 if not os.path.exists(output_gif):
     os.makedirs(output_gif)
+if not os.path.exists(output_t2_valid):
+    os.makedirs(output_t2_valid)
 
+testlist = [os.path.join(src_valid, os.path.basename(f)) for f in glob(os.path.join(config['data']['valid']['target'], '*.nii.gz'))]
 flist = glob(os.path.join(src_t1, '*ceT1.nii.gz')) + \
-    glob(os.path.join(src_t2, '*.nii.gz'))
+    glob(os.path.join(src_t2, '*.nii.gz')) + \
+    testlist
 
 for f in flist:
     print(f)
@@ -55,6 +61,8 @@ for f in flist:
 
         sitk.WriteImage(img_crop, os.path.join(output_t1, os.path.basename(f)))
         sitk.WriteImage(seg_crop, os.path.join(output_t1, os.path.basename(f).replace('ceT1', 'Label')))
-        sitk.WriteImage(seg_crop, os.path.join(output_gif, os.path.basename(f).replace('ceT1', 'gif')))
+        sitk.WriteImage(gif_crop, os.path.join(output_gif, os.path.basename(f).replace('ceT1', 'gif')))
+    elif f in testlist:
+        sitk.WriteImage(img_crop, os.path.join(output_t2_valid, os.path.basename(f)))
     else:
         sitk.WriteImage(img_crop, os.path.join(output_t2, os.path.basename(f)))

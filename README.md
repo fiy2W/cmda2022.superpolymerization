@@ -33,11 +33,32 @@ Source code for [CrossMoDA 2022 challenge](https://crossmoda2022.grand-challenge
     # crop
     python src/prep4_crop.py
     ```
-### Train MSF-Net
-```sh
-python src/train_msf_cross25dseg_gif.py -d cuda -b 1 -e 1000 -l 2e-4 -s ckpt/msf -v vis/msf
-```
-
+### Domain adaptation
+- Train MSF-Net
+    ```sh
+    python src/train_msf_cross25dseg_gif.py -d cuda -b 1 -e 1000 -l 2e-4 -s ckpt/msf -v vis/msf
+    ```
+- Generate fake ceT1 and fake hrT2
+    ```sh
+    python src/test_msf25dseg_gif.py -d cuda -c ckpt/msf/ckpt_1000.pth
+    ```
+### VS segmentation
+- Make nnU-Net dataset
+    ```sh
+    python src/make_nnunet_set.py
+    ```
+- Train nnU-Net
+    ```sh
+    for i in 0 1 2 3 4
+    do
+        python nnunet/run/run_training.py 3d_fullres nnUNetTrainerV2 Task701_CMDA1 $i
+    done
+    ```
+- Inference
+    ```sh
+    python nnunet/inference/predict_simple.py -i $nnUNet_raw_data_base/Task701_CAMDA1/imagesTs -o $output -t 701 -m 3d_fullres -chk model_best --num_threads_preprocessing 2
+    ```
+    
 ## Docker
 
 ### Inference

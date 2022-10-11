@@ -30,7 +30,7 @@ def train(
     dir_visualize='',
 ):
 
-    train_data = CMDA2022_T1T2cross()
+    train_data = CMDA2022_T1T2cross(mode='train')
     n_train = len(train_data)
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True)
     
@@ -51,11 +51,11 @@ def train(
     schedulerD = torch.optim.lr_scheduler.LambdaLR(
         optimizerD,
         lr_lambda=lambda epoch: poly_lr(epoch, epochs, lr, min_lr=1e-5)/lr0)
-    perceptual = PerceptualLoss(device=device)
+    perceptual = PerceptualLoss().to(device=device)
     gan = GANLoss('lsgan').to(device=device)
         
     recorder = Recorder(['loss_rec', 'loss_per', 'loss_cyc', 'loss_d', 'loss_g', 'loss_seg'])
-    plotter = Plotter(dir_visualize, keys1=['loss_rec', 'loss_cyc', 'loss_seg'], keys2=['loss_per', 'loss_d', 'loss_g'])
+    plotter = Plotter(dir_visualize, keys1=['loss_rec', 'loss_cyc'], keys2=['loss_per', 'loss_seg', 'loss_d', 'loss_g'])
     
     total_step = 0
     with open(os.path.join(dir_checkpoint, 'log.csv'), 'w') as f:
@@ -261,7 +261,6 @@ if __name__ == '__main__':
     
     try:
         train(
-            args,
             net=net,
             netD1=netD1,
             netD2=netD2,

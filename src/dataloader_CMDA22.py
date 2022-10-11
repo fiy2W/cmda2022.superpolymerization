@@ -13,7 +13,8 @@ with open('config/data.yaml', 'r') as f:
 
 
 class CMDA2022_T1T2cross(Dataset):
-    def __init__(self):
+    def __init__(self, mode='train'):
+        self.mode = mode
 
         self.root_t1 = config['preprocess']['crop']['source']
         self.root_t2 = config['preprocess']['crop']['target']

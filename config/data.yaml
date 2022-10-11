@@ -34,6 +34,11 @@ preprocess:
     source: preprocess/a4_crop/t1
     target: preprocess/a4_crop/t2
     GIF: preprocess/a4_crop/GIF
+    valid: preprocess/a4_crop/valid/t2
+
+MSF:
+  fakesource: preprocess/b1_msf_fake/t1
+  faketarget: preprocess/b1_msf_fake/t2
 
 # root for nnunet
 nnunet:
