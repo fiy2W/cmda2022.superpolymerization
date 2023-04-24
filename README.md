@@ -1,5 +1,12 @@
 # cmda2022.superpolymerization
-Source code for [CrossMoDA 2022 challenge](https://crossmoda2022.grand-challenge.org/), coming soon.
+Source code for the implementation of group `SuperPolymerization` in [CrossMoDA 2022 challenge](https://crossmoda2022.grand-challenge.org/).
+More details can be found [here](https://arxiv.org/abs/2210.04255).
+
+## Abstract
+Domain adaptation has been widely adopted to transfer styles across multi-vendors and multi-centers, as well as to complement the missing modalities. In this challenge, we proposed an unsupervised domain adaptation framework for cross-modality vestibular schwannoma (VS) and cochlea segmentation and Koos grade prediction. We learn the shared representation from both ceT1 and hrT2 images and recover another modality from the latent representation, and we also utilize proxy tasks of VS segmentation and brain parcellation to restrict the consistency of image structures in domain adaptation. After generating missing modalities, the nnU-Net model is utilized for VS and cochlea segmentation, while a semi-supervised contrastive learning pre-train approach is employed to improve the model performance for Koos grade prediction. On CrossMoDA validation phase Leaderboard, our method received rank 4 in task1 with a mean Dice score of 0.8394 and rank 2 in task2 with Macro-Average Mean Square Error of 0.3941.
+
+## Method
+![Overview of the proposed unsupervised domain adaptation segmentation and classification framework.](/docs/framework.png)
 
 ## Install
 - Install [ANTs](https://github.com/ANTsX/ANTs)
