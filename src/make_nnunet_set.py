@@ -11,7 +11,7 @@ with open('config/data.yaml', 'r') as f:
 
 
 # the same as $nnUNet_raw_data_base/Task110_example, the subpath must be `Task[id]_[desciption]`.
-base = os.path.join(config['nnunet']['base'], 'Task701_CMDA1')
+base = os.path.join(config['nnunet']['base'], 'nnUNet_raw_data', 'Task701_CMDA1')
 root_t1 = config['preprocess']['crop']['source']
 root_t2 = config['MSF']['fakesource']
 root_test = config['preprocess']['crop']['valid']
