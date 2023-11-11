@@ -53,6 +53,7 @@ Domain adaptation has been widely adopted to transfer styles across multi-vendor
 - Make nnU-Net dataset
     ```sh
     python src/make_nnunet_set.py
+    python nnunet/experiment_planning/nnUNet_plan_and_preprocess.py -t 701
     ```
 - Train nnU-Net
     ```sh
