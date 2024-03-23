@@ -201,7 +201,7 @@ class CMDA2022_T2KOO(Dataset):
             no_f += 500
         imgsT1 = sitk.GetArrayFromImage(sitk.ReadImage(os.path.join(self.root_T1, x_idx+'_hrT2.nii.gz')))
         imgsT2 = sitk.GetArrayFromImage(sitk.ReadImage(os.path.join(self.root_T2, x_idx+'_hrT2.nii.gz')))
-        segsT1 = sitk.GetArrayFromImage(sitk.ReadImage(os.path.join(self.root_seg, 'cmda_{}.nii.gz'.format(no_f))))
+        segsT1 = sitk.GetArrayFromImage(sitk.ReadImage(os.path.join(self.root_seg, 'cmda_{:0>4d}.nii.gz'.format(no_f))))
 
         d1, d2 = self.tumor_range(segsT1)
         
