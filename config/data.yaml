@@ -45,3 +45,5 @@ nnunet:
   base: nnUNet_raw_data_base
   preprocessing_output_dir: nnUNet_preprocessed
   network_training_output_dir_base: ckpt/nnUNet
+
+  train_t2_seg: preprocess/b2_nnunet_seg/train_t2
