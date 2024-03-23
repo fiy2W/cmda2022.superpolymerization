@@ -166,7 +166,7 @@ class CMDA2022_T2KOO(Dataset):
         
         self.root_T2 = config['preprocess']['crop']['target']
         self.root_T1 = config['MSF']['faketarget']
-        self.root_seg = os.path.join(config['nnunet']['base'], 'Task701_CMDA1/imagesAllT2')
+        self.root_seg = config['nnunet']['train_t2_seg']
         self.file_X = [os.path.basename(i).split('_hrT2')[0] for i in glob(os.path.join(self.root_T2, '*.nii.gz'))]
         
     def preprocess(self, x, k=[0,0,0], axis=[0,1,2]):
@@ -196,12 +196,12 @@ class CMDA2022_T2KOO(Dataset):
 
     def __getitem__(self, index):
         x_idx = self.file_X[index]
-        no_f = np.int32(x_idx.split('_')[-2])
+        no_f = np.int32(x_idx.split('_')[-1])
         if '2022' in os.path.basename(x_idx):
             no_f += 500
         imgsT1 = sitk.GetArrayFromImage(sitk.ReadImage(os.path.join(self.root_T1, x_idx+'_hrT2.nii.gz')))
         imgsT2 = sitk.GetArrayFromImage(sitk.ReadImage(os.path.join(self.root_T2, x_idx+'_hrT2.nii.gz')))
-        segsT1 = sitk.GetArrayFromImage(sitk.ReadImage(os.path.join(self.root_seg, 'cmda_{}.nii.gz'.format(x_idx))))
+        segsT1 = sitk.GetArrayFromImage(sitk.ReadImage(os.path.join(self.root_seg, 'cmda_{}.nii.gz'.format(no_f))))
 
         d1, d2 = self.tumor_range(segsT1)
         
