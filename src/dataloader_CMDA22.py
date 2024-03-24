@@ -206,7 +206,6 @@ class CMDA2022_T2KOO(Dataset):
         d1, d2 = self.tumor_range(segsT1)
         
         imgsT2 = np.clip(imgsT2, 0, 1500)/1500.
-        imgsT2na = np.clip(imgsT2na, 0, 1500)/1500.
 
         k = [random.randint(0,1), 0, 0]
         axis = [1,2]
